@@ -40,10 +40,17 @@ document.addEventListener('DOMContentLoaded', ()=>{
           addForm.addEventListener('submit', (event)=>{
             event.preventDefault();
 
-            const newFilm = addInput.value;
+            let newFilm = addInput.value;
             const favorite = checkbox.checked;
 
             if(newFilm){
+
+                if(newFilm.length >21){
+                    newFilm = `${newFilm.substring(0, 22)}...`;
+                }
+                if(favorite){
+                    console.log('Add favorite');
+                }
 
                 movieDB.movies.push(newFilm);
                 sortArray(movieDB.movies);
@@ -53,7 +60,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
             event.target.reset();
 
-
+ 
         });
           
           
@@ -78,7 +85,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     
     function createMoovieList(films, parent){
         parent.innerHTML = '';
-        
+        sortArray(films);
+
        films.forEach((fl, i) =>{  
         
             parent.innerHTML += `
@@ -87,9 +95,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
             </li>
             `;
         });
+
+        document.querySelectorAll('.delete').forEach((btn , i) =>{
+            btn.addEventListener('click',()=>{
+                btn.parentElement.remove();
+                movieDB.movies.splice(i ,1);
+                
+                createMoovieList(films, parent);
+
+            });
+        });
         
     }
-    sortArray(movieDB.movies);
     makeChanges();
     deleteAdv(addblocks);
     createMoovieList(movieDB.movies, films);
