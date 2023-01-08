@@ -74,10 +74,5 @@ function addElementToList(list){
     
 };
 
-    delButton.addEventListener('click', (ev)=>{
-        console.log('delete');
-    });
-
-
 
 addElementToList(movieDB.movies);
